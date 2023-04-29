@@ -7,7 +7,7 @@ public class Solution {
 
     public static void main(String[] args) {
         Gallow gallow = new Gallow();
-        Map<Integer, String> listWords = Utils.getWordList();
+        List<String> listWords = Utils.getWordList();
 
         int maxMistake = 7;
 

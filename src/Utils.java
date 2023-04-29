@@ -4,17 +4,16 @@ import java.util.regex.Pattern;
 
 public class Utils {
     static Scanner scanner = new Scanner(System.in);
-    public static Map<Integer, String> getWordList(){
+    public static List<String> getWordList(){
 
-        Map<Integer, String> map = new HashMap<>();
+        List<String> list = new ArrayList<>();
         File file = new File("src/dictionary.txt");
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String word;
             int index = 0;
             while ((word = bufferedReader.readLine()) != null) {
-                map.put(index, word);
-                index++;
+                list.add(word);
             }
 
         } catch (FileNotFoundException e) {
@@ -23,13 +22,13 @@ public class Utils {
             throw new RuntimeException(e);
         }
 
-        return map;
+        return list;
     }
 
-    public static String getWord(Map<Integer, String> map) {
+    public static String getWord(List<String> list) {
 
         Random random = new Random();
-        return map.get(random.nextInt(map.size() - 1));
+        return list.get(random.nextInt(list.size() - 1));
     }
 
     public static Boolean isPlay(){
