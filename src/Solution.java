@@ -27,25 +27,6 @@ public class Solution {
 
                 Arrays.stream(board).forEach(System.out::println);
 
-                if (errorLetters.size() >= maxMistake) {
-                    System.out.println();
-                    System.out.println("К сожалению, вы проиграли :(  ::: было загадано слово: " + String.valueOf(secretWord));
-                    System.out.println("Может быть в следующий раз повезет");
-                    System.out.println("Нажмите ENTER...");
-                    Utils.scanner.nextLine();
-                    System.out.println();
-                    break;
-                }
-                if (!(String.valueOf(secretTemplate).indexOf("_") >= 0)) {
-                    System.out.println();
-                    System.out.println("Верно!!! Это слово: " + String.valueOf(secretWord));
-                    System.out.println("Вы победили! Еще пару раз и вы станете игроком дня! :)");
-                    System.out.println("Нажмите ENTER...");
-                    Utils.scanner.nextLine();
-                    System.out.println();
-                    break;
-                }
-
                 String lineWord = String.valueOf(secretTemplate);
                 System.out.println();
                 System.out.println("Слово: " + lineWord);
@@ -73,6 +54,25 @@ public class Solution {
                 if (!isLetterInSecretWord) {
                     errorLetters.add(symbol.toUpperCase().charAt(0));
                     newError = true;
+                }
+
+                if (errorLetters.size() >= maxMistake) {
+                    System.out.println();
+                    System.out.println("К сожалению, вы проиграли :(  ::: было загадано слово: " + String.valueOf(secretWord));
+                    System.out.println("Может быть в следующий раз повезет");
+                    System.out.println("Нажмите ENTER...");
+                    Utils.scanner.nextLine();
+                    System.out.println();
+                    break;
+                }
+                if (!(String.valueOf(secretTemplate).indexOf("_") >= 0)) {
+                    System.out.println();
+                    System.out.println("Верно!!! Это слово: " + String.valueOf(secretWord));
+                    System.out.println("Вы победили! Еще пару раз и вы станете игроком дня! :)");
+                    System.out.println("Нажмите ENTER...");
+                    Utils.scanner.nextLine();
+                    System.out.println();
+                    break;
                 }
             }
         }
