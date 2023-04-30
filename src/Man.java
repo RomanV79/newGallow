@@ -1,10 +1,10 @@
 public class Man {
 
-    String head = "O";
-    String bodyOne = "|";
-    String bodyTwo = "|";
-    String leftArm = "/";
-    String rightArm = "\\";
-    String leftFoot = "/";
-    String rightFoot = "\\";
+    static String HEAD = "O";
+    static String BODY_ONE = "|";
+    static String BODY_TWO = "|";
+    static String LEFT_ARM = "/";
+    static String RIGHT_ARM = "\\";
+    static String LEFT_FOOT = "/";
+    static String RIGHT_FOOT = "\\";
 }

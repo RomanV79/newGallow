@@ -52,11 +52,39 @@ public class Utils {
 
     public static Boolean isCorrectSymbol(String symbol, List<Character> errorLetters, char[] secretTemplate) {
 
-        boolean isLenghtCorrect = symbol.length() == 1;
-        boolean patternMatches = Pattern.matches("[а-яА-Я]", symbol);
-        boolean errorLettersAlready =  !errorLetters.contains(symbol.toUpperCase().charAt(0));
-        boolean alreadyGuess = !Arrays.asList(secretTemplate).contains(symbol.toUpperCase().charAt(0));
+        if (!symbol.isEmpty()){
+            boolean isLenghtCorrect = symbol.length() == 1;
+            boolean patternMatches = Pattern.matches("[а-яА-Я]", symbol);
+            boolean errorLettersAlready =  !errorLetters.contains(symbol.toUpperCase().charAt(0));
+            boolean alreadyGuess = !Arrays.asList(secretTemplate).contains(symbol.toUpperCase().charAt(0));
 
-        return (isLenghtCorrect && patternMatches && errorLettersAlready && alreadyGuess);
+            return (isLenghtCorrect && patternMatches && errorLettersAlready && alreadyGuess);
+        }
+        return false;
+    }
+
+    public static String getNewSymbol(List<Character> errorLetters, char[] secretTemplate){
+        String symbol = Utils.scanner.nextLine();
+        while (!Utils.isCorrectSymbol(symbol, errorLetters, secretTemplate)) {
+            System.out.println("Вы ввели неверную букву или вы уже вводили ее ранее, введите одну букву русского алфавита");
+            System.out.print("Итак, ваша буква: ");
+            symbol = Utils.scanner.nextLine();
+        }
+
+        return symbol.toUpperCase();
+    }
+
+    public static boolean isLetterInSecretWord(String symbol, char[] secretWord){
+        return String.valueOf(secretWord).contains(symbol);
+    }
+
+    public static char[] refreshSecretTemplate(char[] secretWord, char[] secretTemplate, String symbol){
+        for (int i = 0; i < secretWord.length; i++) {
+            char temp = symbol.toUpperCase().charAt(0);
+            if (secretWord[i] == temp) {
+                secretTemplate[i] = temp;
+            }
+        }
+        return secretTemplate;
     }
 }

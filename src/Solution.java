@@ -1,18 +1,15 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class Solution {
 
     public static void main(String[] args) {
-        Gallow gallow = new Gallow();
+
         List<String> listWords = Utils.getWordList();
 
-        int maxMistake = 7;
-
         while (Utils.isPlay()) {
-            String[] board = gallow.makeNewGallow();
+            String[] board = Gallow.makeNewGallow();
             char[] secretWord = Utils.getWord(listWords).toUpperCase().toCharArray();
             char[] secretTemplate = new char[secretWord.length];
             Arrays.fill(secretTemplate, '_');
@@ -21,44 +18,29 @@ public class Solution {
 
             while (true) {
                 if (newError) {
-                    board = gallow.addElementToGallow(board, errorLetters.size());
+                    board = Gallow.addElementToGallow(board, errorLetters.size());
                     newError = false;
                 }
 
                 Arrays.stream(board).forEach(System.out::println);
 
-                String lineWord = String.valueOf(secretTemplate);
-                System.out.println();
-                System.out.println("Слово: " + lineWord);
+                String lineTemplateWord = String.valueOf(secretTemplate);
+                System.out.println("\n" + "Слово: " + lineTemplateWord);
                 System.out.format("Ошибки (%d): ", errorLetters.size());
                 errorLetters.forEach(System.out::print);
-                System.out.println();
-                System.out.print("Следующая буква: ");
+                System.out.print("\n" + "Следующая буква: ");
 
-                String symbol = Utils.scanner.nextLine();
+                String newSymbol = Utils.getNewSymbol(errorLetters, secretTemplate);
 
-                while (!Utils.isCorrectSymbol(symbol, errorLetters, secretTemplate)) {
-                    System.out.println("Вы ввели неверную букву или вы уже вводили ее ранее, введите одну букву русского алфавита");
-                    System.out.print("Итак, ваша буква: ");
-                    symbol = Utils.scanner.nextLine();
-                }
-
-                boolean isLetterInSecretWord = false;
-                for (int i = 0; i < secretWord.length; i++) {
-                    char temp = symbol.toUpperCase().charAt(0);
-                    if (secretWord[i] == temp) {
-                        secretTemplate[i] = temp;
-                        isLetterInSecretWord = true;
-                    }
-                }
-                if (!isLetterInSecretWord) {
-                    errorLetters.add(symbol.toUpperCase().charAt(0));
+                if (Utils.isLetterInSecretWord(newSymbol, secretWord)) {
+                    secretTemplate = Utils.refreshSecretTemplate(secretWord, secretTemplate, newSymbol);
+                } else {
+                    errorLetters.add(newSymbol.toUpperCase().charAt(0));
                     newError = true;
                 }
 
-                if (errorLetters.size() >= maxMistake) {
-                    System.out.println();
-                    System.out.println("К сожалению, вы проиграли :(  ::: было загадано слово: " + String.valueOf(secretWord));
+                if (errorLetters.size() >= Gallow.MAX_MISTAKE) {
+                    System.out.println("\n" + "К сожалению, вы проиграли :(  ::: было загадано слово: " + String.valueOf(secretWord));
                     System.out.println("Может быть в следующий раз повезет");
                     System.out.println("Нажмите ENTER...");
                     Utils.scanner.nextLine();
@@ -66,8 +48,7 @@ public class Solution {
                     break;
                 }
                 if (!(String.valueOf(secretTemplate).indexOf("_") >= 0)) {
-                    System.out.println();
-                    System.out.println("Верно!!! Это слово: " + String.valueOf(secretWord));
+                    System.out.println("\n" + "Верно!!! Это слово: " + String.valueOf(secretWord));
                     System.out.println("Вы победили! Еще пару раз и вы станете игроком дня! :)");
                     System.out.println("Нажмите ENTER...");
                     Utils.scanner.nextLine();
@@ -76,6 +57,8 @@ public class Solution {
                 }
             }
         }
+
+        Utils.scanner.close();
     }
 
 }
